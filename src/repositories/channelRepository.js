@@ -1,4 +1,4 @@
-channelRepository
+
 
 import Channel from '../models/ChannelModel.js';
 
@@ -16,6 +16,26 @@ class ChannelRepository {
             throw error;
         }
     }
+
+    async findByName(workspaceId, name) {
+        try {
+            return await Channel.findOne({ name, workspace_id: workspaceId });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getAllByWorkspace(workspaceId) {
+        try {
+            const channels = await Channel.find({ workspace_id: workspaceId });
+            return channels;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
 }
+
 const channelRepository = new ChannelRepository();
 export default channelRepository;

@@ -69,7 +69,7 @@ class UserController {
                 //creo el link seguro
             })
             response.send({
-                message: "User created successfully,we sent u an email check it out!",
+                message: "Usuario creado exitosamente!! Te enviamos un mail, echale un vistazo!",
                 ok: true
             });
 
@@ -95,7 +95,7 @@ class UserController {
 
             // Error desconocido
             return response.status(500).send({
-                message: "We're sorry, there's been an error,we're working on it!!!",
+                message: "Disculpanos hubo un error, estamos trabajando en ello!!!",
                 ok: false
             });
         }
@@ -107,7 +107,7 @@ class UserController {
             //primero verifico q el token lo emiti yo y q existe ese token. en el modelo de usuarios debe estar lapropiedad verified.
             const verifyToken = request.query.verify_token;
             if (!verifyToken) {
-                response.status(400).send({ message: "Token is required donde esta el token", ok: false });
+                response.status(400).send({ message: "se necesita el token", ok: false });
                 return
             }
             //si el toke exiate lo verificamos 
@@ -118,7 +118,7 @@ class UserController {
 
             response.send({
                 ok: true,
-                message: "Email verified successfully"
+                message: "Email verificado exitosamente"
             })
 
 
@@ -131,7 +131,7 @@ class UserController {
 
             }
             else {
-                response.status(500).send({ message: "Token is invalid, theres been an error", ok: false }); //si el error no tiene status respondo con esto
+                response.status(500).send({ message: "El token es invalio, hubo un error", ok: false }); //si el error no tiene status respondo con esto
             }
 
         }
@@ -142,10 +142,10 @@ class UserController {
         try {
             const { email, password } = request.body;
             if (!email) {
-                throw { status: 400, message: "Email is required" }//si el email no existe
+                throw { status: 400, message: "El email es requerido" }//si el email no existe
             }
             if (!password) {
-                throw { status: 400, message: "Password is required" }//si el password no existe
+                throw { status: 400, message: "La contraseña es requerida" }//si el password no existe
             }
             //paso 1.1 :  buscal al usuario en la db por mail.
 
@@ -158,13 +158,13 @@ class UserController {
             //paso 1.2 :  verificamos si el mail esta verificado
 
             if (!user.verified) {
-                throw { status: 400, message: "Email not verified,verify it plis" }
+                throw { status: 400, message: "Email no verificado, verifiquelo porfavor." }
             }
 
             //paso 2 : verificar si la password q el  usuario paso coincide con la que tengo en la db 
             const isValidPassword = await bcrypt.compare(password, user.password);
             if (!isValidPassword) {
-                throw { status: 401, message: "Password is incorrect" }
+                throw { status: 401, message: "Contraseña incorrecta" }
             }
             //paso 3 : crear un token con los datos no-sensibles del usuario , es decir crear la sesion. 
             const autorizathionToken = jwt.sign({
@@ -199,10 +199,10 @@ class UserController {
 
             //chequeamos q exista el usuario
             if (!user) {
-                throw { status: 404, message: "User not found" }
+                throw { status: 404, message: "Usuario no encontrado" }
             }
             if (user.verified) {
-                throw { status: 400, message: "Email already verified" }
+                throw { status: 400, message: "Email ya verificado" }
             }
             //creamos un token de verificacion para generar la url de verificacion 
             const verToken = createVerificationToken(email)
@@ -222,7 +222,7 @@ class UserController {
 
             }
             else {
-                response.status(500).send({ message: "Token is invalid, theres been an error", ok: false }); //si el error no tiene status respondo con esto
+                response.status(500).send({ message: "El token es invalido, hubo un error", ok: false }); //si el error no tiene status respondo con esto
             }
 
         }
