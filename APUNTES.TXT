@@ -1,0 +1,8 @@
+
+
+
+app.listen(ENVIRONMENT.PORT, () => {
+  console.log(
+    `la app se esta escuchando en HTTP://localhost:${ENVIRONMENT.PORT}`
+  );
+});
